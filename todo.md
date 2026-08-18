@@ -1,0 +1,19 @@
+# Project TODO
+
+- [x] Thiết kế nhận diện SubLingo Offline, màu sắc và luồng one-handed cho Android dọc.
+- [x] Tạo biểu tượng ứng dụng riêng và cập nhật cấu hình branding.
+- [x] Xây dựng trang chủ với dự án gần đây và nút tạo dự án.
+- [x] Thêm chọn video cục bộ, đọc metadata và thumbnail preview.
+- [x] Xây dựng màn hình chọn preset/vùng phụ đề.
+- [x] Tạo model dự án SRT cục bộ và màn hình trạng thái xử lý.
+- [x] Xây dựng trình biên tập cue song ngữ, chỉnh thời gian và tìm kiếm.
+- [x] Xuất/chia sẻ SRT tiếng Việt và SRT song ngữ UTF-8.
+- [x] Tích hợp engine OCR tiếng Trung có thể thay thế và thông báo rõ trạng thái khả dụng.
+- [ ] Chuẩn bị chế độ dịch offline và adapter AI online tùy chọn, không gửi video gốc.
+- [ ] Kiểm thử typecheck, UI và các luồng cốt lõi.
+- [x] Tạo checkpoint bàn giao cho bản chạy thử trên iQOO Z10 Turbo Plus.
+- [x] Sửa cấu hình import của unit test SRT cho Vitest.
+- [x] Thêm cách tạo cue thủ công khi OCR frame chưa nhận ra chữ.
+- [x] Xác thực TypeScript, unit test helper SRT và Android JavaScript bundle.
+- [ ] Cài APK và kiểm thử OCR/dịch native trên iQOO Z10 Turbo Plus.
+- [ ] Build APK native bằng nút Publish và gửi bản APK để cài thử.
