@@ -33,3 +33,10 @@
 - [ ] Sửa crash khởi động native và build lại APK xác thực.
 - [x] Loại bỏ wrapper ML Kit legacy khỏi bản khởi động để giữ New Architecture bắt buộc của Reanimated và tránh crash native.
 - [x] Build GitHub Actions thành công APK không autolink wrapper ML Kit legacy (run 32204103986).
+- [x] Phân tích APK người dùng gửi: cấu trúc ZIP, manifest, chữ ký, ABI và lỗi native.
+- [ ] Tải lại artifact APK hoàn chỉnh, xác nhận ZIP central directory và chữ ký trước khi cài.
+- [ ] Sửa nguyên nhân thực tế khiến APK hỏng hoặc không khởi động trên iQOO Z10 Turbo Plus.
+- [ ] Build lại APK đã kiểm tra và yêu cầu người dùng xác nhận khởi động.
+- [ ] Thu APK người dùng gửi lần hai và log crash Android từ iQOO Z10 Turbo Plus.
+- [ ] Sửa crash dựa trên stack trace Android, không dựa trên suy đoán.
+- [x] Chuyển workflow từ debug APK sang release APK đóng gói JavaScript, không cần Metro server.
