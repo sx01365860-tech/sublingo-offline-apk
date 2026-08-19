@@ -23,7 +23,8 @@
 - [ ] Kiểm tra cấu hình backend đang khiến luồng xuất bản Android phải phát hành thêm dịch vụ.
 - [ ] Tách SubLingo Offline khỏi backend không sử dụng, chỉ giữ dữ liệu và xử lý cục bộ.
 - [ ] Kiểm chứng lại khả năng tạo APK sau khi tách backend và báo rõ giới hạn còn lại.
-- [ ] Kết nối GitHub và tạo repository riêng cho build APK cloud.
-- [ ] Đẩy mã nguồn checkpoint lên repository GitHub.
+- [x] Kết nối GitHub và tạo repository riêng cho build APK cloud.
+- [x] Đẩy mã nguồn checkpoint lên repository GitHub.
 - [ ] Chạy GitHub Actions và lấy artifact APK debug cài thử.
-- [x] Xác thực GitHub PAT có quyền ghi repository và chạy workflow build APK.
+- [ ] Xác thực GitHub PAT có quyền ghi repository và chạy workflow build APK.
+- [x] Sửa workflow GitHub Actions để cài pnpm trước khi dùng cache pnpm.
