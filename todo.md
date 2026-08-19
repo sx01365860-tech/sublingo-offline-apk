@@ -20,3 +20,9 @@
 - [ ] Phân tích nguyên nhân luồng xuất bản hiện tại không tạo được APK.
 - [x] So sánh và chọn dịch vụ build APK cloud thay thế, tương thích Expo native modules.
 - [x] Thêm cấu hình build cloud độc lập và hướng dẫn lấy APK cài thử.
+- [ ] Kiểm tra cấu hình backend đang khiến luồng xuất bản Android phải phát hành thêm dịch vụ.
+- [ ] Tách SubLingo Offline khỏi backend không sử dụng, chỉ giữ dữ liệu và xử lý cục bộ.
+- [ ] Kiểm chứng lại khả năng tạo APK sau khi tách backend và báo rõ giới hạn còn lại.
+- [ ] Kết nối GitHub và tạo repository riêng cho build APK cloud.
+- [ ] Đẩy mã nguồn checkpoint lên repository GitHub.
+- [ ] Chạy GitHub Actions và lấy artifact APK debug cài thử.
