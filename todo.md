@@ -28,3 +28,4 @@
 - [ ] Chạy GitHub Actions và lấy artifact APK debug cài thử.
 - [ ] Xác thực GitHub PAT có quyền ghi repository và chạy workflow build APK.
 - [x] Sửa workflow GitHub Actions để cài pnpm trước khi dùng cache pnpm.
+- [x] Sửa workflow để không bật cache Gradle trước khi Android project được Expo prebuild tạo ra.
