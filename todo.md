@@ -26,3 +26,4 @@
 - [ ] Kết nối GitHub và tạo repository riêng cho build APK cloud.
 - [ ] Đẩy mã nguồn checkpoint lên repository GitHub.
 - [ ] Chạy GitHub Actions và lấy artifact APK debug cài thử.
+- [x] Xác thực GitHub PAT có quyền ghi repository và chạy workflow build APK.
