@@ -25,7 +25,7 @@
 - [ ] Kiểm chứng lại khả năng tạo APK sau khi tách backend và báo rõ giới hạn còn lại.
 - [x] Kết nối GitHub và tạo repository riêng cho build APK cloud.
 - [x] Đẩy mã nguồn checkpoint lên repository GitHub.
-- [ ] Chạy GitHub Actions và lấy artifact APK debug cài thử.
-- [ ] Xác thực GitHub PAT có quyền ghi repository và chạy workflow build APK.
+- [x] Chạy GitHub Actions và lấy artifact APK debug cài thử.
+- [x] Xác thực GitHub PAT có quyền ghi repository và chạy workflow build APK.
 - [x] Sửa workflow GitHub Actions để cài pnpm trước khi dùng cache pnpm.
 - [x] Sửa workflow để không bật cache Gradle trước khi Android project được Expo prebuild tạo ra.
