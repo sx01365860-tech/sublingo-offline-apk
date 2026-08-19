@@ -46,7 +46,8 @@ const config: ExpoConfig = {
   icon: "./assets/images/icon.png",
   scheme: env.scheme,
   userInterfaceStyle: "automatic",
-  newArchEnabled: true,
+  // ML Kit wrappers hiện dùng NativeModule legacy; tắt New Architecture để tránh crash lúc khởi tạo Android.
+  newArchEnabled: false,
   ios: {
     supportsTablet: true,
     bundleIdentifier: env.iosBundleId,
