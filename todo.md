@@ -31,3 +31,4 @@
 - [x] Sửa workflow để không bật cache Gradle trước khi Android project được Expo prebuild tạo ra.
 - [ ] Chẩn đoán lỗi APK cài được nhưng không mở trên iQOO Z10 Turbo Plus.
 - [ ] Sửa crash khởi động native và build lại APK xác thực.
+- [ ] Loại bỏ wrapper ML Kit legacy khỏi bản khởi động để giữ New Architecture bắt buộc của Reanimated và tránh crash native.

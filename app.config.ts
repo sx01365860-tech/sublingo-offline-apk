@@ -46,8 +46,8 @@ const config: ExpoConfig = {
   icon: "./assets/images/icon.png",
   scheme: env.scheme,
   userInterfaceStyle: "automatic",
-  // ML Kit wrappers hiện dùng NativeModule legacy; tắt New Architecture để tránh crash lúc khởi tạo Android.
-  newArchEnabled: false,
+  // Reanimated của Expo SDK 54 yêu cầu New Architecture. Wrapper ML Kit legacy đã được gỡ khỏi APK khởi động.
+  newArchEnabled: true,
   ios: {
     supportsTablet: true,
     bundleIdentifier: env.iosBundleId,

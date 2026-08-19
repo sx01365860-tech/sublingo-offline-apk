@@ -4,8 +4,6 @@ import * as FileSystem from "expo-file-system/legacy";
 import * as Sharing from "expo-sharing";
 import { VideoView, useVideoPlayer } from "expo-video";
 import * as VideoThumbnails from "expo-video-thumbnails";
-import TextRecognition, { TextRecognitionScript } from "@react-native-ml-kit/text-recognition";
-import TranslateText, { TranslateLanguage } from "@react-native-ml-kit/translate-text";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   ActivityIndicator,
@@ -13,7 +11,6 @@ import {
   FlatList,
   Image,
   Modal,
-  Platform,
   Pressable,
   SafeAreaView,
   ScrollView,
@@ -33,7 +30,6 @@ import {
   makeCue,
   type SubtitleCue,
   type SubtitleProject,
-  upsertCue,
 } from "@/lib/subtitles";
 
 type Screen = "home" | "setup" | "process" | "editor" | "export";
@@ -191,41 +187,14 @@ export default function HomeScreen() {
       Alert.alert("Chưa có ảnh frame", "Hãy chờ ảnh xem trước được tạo hoặc chạm Làm mới frame.");
       return;
     }
-    if (Platform.OS === "web") {
-      Alert.alert("Cần APK native", "Nhận diện ML Kit chỉ chạy sau khi bạn cài APK native; bản xem trước web chỉ dùng để kiểm tra giao diện.");
-      return;
-    }
-    setScreen("process");
-    setIsBusy(true);
-    try {
-      setProgressValue(12);
-      setProgressText("Đang kiểm tra ảnh frame và vùng phụ đề…");
-      await new Promise((resolve) => setTimeout(resolve, 250));
-      setProgressValue(42);
-      setProgressText("ML Kit đang nhận diện chữ Trung Quốc trên thiết bị…");
-      const result = await TextRecognition.recognize(previewUri, TextRecognitionScript.CHINESE);
-      const text = result.blocks.flatMap((block) => block.lines.map((line) => line.text)).join(" ").trim();
-      setProgressValue(78);
-      setProgressText("Đang tạo cue SRT để bạn kiểm tra…");
-      await new Promise((resolve) => setTimeout(resolve, 180));
-      if (!text) {
-        Alert.alert("Chưa đọc được phụ đề", "Hãy chọn frame có phụ đề rõ hơn, đổi preset vùng phụ đề, hoặc kiểm tra video có chữ Trung hiển thị rõ.");
-        setScreen("setup");
-        return;
-      }
-      const cue = makeCue(text, scanTimeMs, result.blocks.length > 0 ? "medium" : "low");
-      const next = await persistProject({ ...project, status: "review", cues: upsertCue(project.cues, cue), thumbnailUri: previewUri });
-      setProject(next);
-      setProgressValue(100);
-      setProgressText("Đã tạo cue. Bạn có thể sửa ngay trong trình biên tập.");
-      await new Promise((resolve) => setTimeout(resolve, 350));
-      setScreen("editor");
-    } catch (error) {
-      Alert.alert("OCR chưa chạy được", error instanceof Error ? error.message : "Hãy cài APK native, sau đó thử lại với frame khác.");
-      setScreen("setup");
-    } finally {
-      setIsBusy(false);
-    }
+    Alert.alert(
+      "OCR offline đang tạm tắt",
+      "Bản APK trước dùng wrapper ML Kit cũ làm app không khởi động được trên Android mới. Bản ổn định này giữ toàn bộ luồng video, biên tập và xuất SRT; bạn có thể tạo cue thủ công trong khi engine OCR tương thích được thay thế.",
+      [
+        { text: "Quay lại", style: "cancel" },
+        { text: "Tạo cue thủ công", onPress: () => void addManualCue() },
+      ],
+    );
   };
 
   const translateCues = async () => {
@@ -235,40 +204,10 @@ export default function HomeScreen() {
       Alert.alert("Chưa có câu để dịch", "Hãy tạo ít nhất một cue OCR hoặc nhập câu tiếng Trung trong trình biên tập.");
       return;
     }
-    if (Platform.OS === "web") {
-      Alert.alert("Cần APK native", "Dịch ML Kit trên thiết bị chỉ chạy trong APK. Bản xem trước web không tải model ngôn ngữ.");
-      return;
-    }
-    setScreen("process");
-    setIsBusy(true);
-    try {
-      let nextCues = [...project.cues];
-      for (let index = 0; index < targets.length; index += 1) {
-        const cue = targets[index];
-        setProgressValue(Math.round((index / targets.length) * 90) + 5);
-        setProgressText(index === 0 ? "Đang tải model Trung–Việt lần đầu (nếu máy chưa có)…" : `Đang dịch câu ${index + 1}/${targets.length} trên thiết bị…`);
-        const raw = await TranslateText.translate({
-          text: cue.sourceText,
-          sourceLanguage: TranslateLanguage.CHINESE,
-          targetLanguage: TranslateLanguage.VIETNAMESE,
-          downloadModelIfNeeded: true,
-          requireWifi: false,
-        });
-        const translatedText = raw as unknown as string;
-        nextCues = nextCues.map((item) => item.id === cue.id ? { ...item, translatedText } : item);
-      }
-      const next = await persistProject({ ...project, status: "review", cues: nextCues });
-      setProject(next);
-      setProgressValue(100);
-      setProgressText("Đã dịch xong. Hãy rà soát các tên riêng và ngữ cảnh trước khi xuất.");
-      await new Promise((resolve) => setTimeout(resolve, 350));
-      setScreen("editor");
-    } catch (error) {
-      Alert.alert("Dịch chưa hoàn tất", error instanceof Error ? error.message : "Hãy kết nối mạng một lần để tải model Trung–Việt, rồi thử lại.");
-      setScreen("editor");
-    } finally {
-      setIsBusy(false);
-    }
+    Alert.alert(
+      "Dịch offline đang tạm tắt",
+      "Module dịch ML Kit cũ đã được gỡ để ngăn app crash khi mở. Bạn vẫn có thể chạm từng cue để nhập/sửa bản dịch tiếng Việt và xuất SRT. Engine dịch tương thích Android mới sẽ được tích hợp ở bản tiếp theo.",
+    );
   };
 
   const updateCue = async (nextCue: SubtitleCue) => {
@@ -413,7 +352,7 @@ export default function HomeScreen() {
                 <Pressable accessibilityLabel="Tăng 1 giây" onPress={() => setScanTimeMs((time) => time + 1000)} style={({ pressed }) => [styles.stepButton, pressed && styles.pressed]}><MaterialIcons color={COLORS.paper} name="add" size={19} /></Pressable>
               </View>
             </View>
-            <View style={styles.notice}><MaterialIcons color={COLORS.amber} name="info-outline" size={18} /><Text style={styles.noticeText}>Bản thử nghiệm quét một frame để kiểm tra OCR Chinese và luồng sửa SRT. Quét hàng loạt toàn video sẽ được thêm sau khi bạn thử.</Text></View>
+            <View style={styles.notice}><MaterialIcons color={COLORS.amber} name="info-outline" size={18} /><Text style={styles.noticeText}>Bản ổn định này giữ luồng chọn video, xem frame, tạo/sửa cue và xuất SRT. OCR Trung–Việt đang được thay bằng engine tương thích Android mới để tránh lỗi khởi động.</Text></View>
           </ScrollView>
           <View style={styles.bottomAction}><ActionButton disabled={isBusy || !previewUri} icon="document-scanner" label={isBusy ? "Đang tạo frame…" : "Quét phụ đề trên frame"} onPress={() => void runOcr()} /></View>
         </View>
@@ -457,10 +396,10 @@ export default function HomeScreen() {
         <View style={styles.app}>
           <Header title="Rà soát phụ đề" subtitle={`${project.sourceName} · ${projectStatus}`} onBack={() => setScreen("home")} />
           <View style={styles.editorToolbar}>
-            <StatusChip label={offlineMode ? "Ưu tiên offline" : "AI online (sắp có)"} tone={offlineMode ? "ready" : "warning"} />
-            <View style={styles.modeSwitch}><Text style={styles.switchText}>Chế độ offline</Text><Switch accessibilityLabel="Chế độ offline đang được ưu tiên trong bản thử nghiệm" trackColor={{ false: COLORS.line, true: "#287266" }} thumbColor={offlineMode ? COLORS.mint : COLORS.paper} value={offlineMode} onValueChange={(next) => { if (next) { setOfflineMode(true); return; } Alert.alert("AI online chưa cấu hình", "Bản chạy thử giữ chế độ offline để kiểm tra OCR, dịch ML Kit và xuất SRT. Nút AI online sẽ được thêm sau khi bạn phản hồi về bản này."); }} /></View>
+            <StatusChip label={offlineMode ? "SRT cục bộ" : "AI online (sắp có)"} tone={offlineMode ? "ready" : "warning"} />
+            <View style={styles.modeSwitch}><Text style={styles.switchText}>SRT cục bộ</Text><Switch accessibilityLabel="Chế độ dữ liệu cục bộ" trackColor={{ false: COLORS.line, true: "#287266" }} thumbColor={offlineMode ? COLORS.mint : COLORS.paper} value={offlineMode} onValueChange={(next) => { if (next) { setOfflineMode(true); return; } Alert.alert("Chế độ cục bộ", "Bản ổn định này giữ video và dự án SRT trên máy. OCR và dịch offline sẽ được thêm lại sau bằng engine tương thích Android mới."); }} /></View>
           </View>
-          {project.thumbnailUri ? <View style={styles.editorVideoStrip}><Image source={{ uri: project.thumbnailUri }} style={styles.editorThumbnail} /><View style={styles.editorVideoCopy}><Text style={styles.editorVideoTitle}>Frame gần nhất</Text><Text style={styles.editorVideoMeta}>OCR chạy trên ảnh frame cục bộ</Text></View><Pressable onPress={() => { setPreviewUri(project.thumbnailUri); setScreen("setup"); }} style={({ pressed }) => [styles.smallOutlineButton, pressed && styles.pressed]}><Text style={styles.smallOutlineText}>Quét thêm</Text></Pressable></View> : null}
+          {project.thumbnailUri ? <View style={styles.editorVideoStrip}><Image source={{ uri: project.thumbnailUri }} style={styles.editorThumbnail} /><View style={styles.editorVideoCopy}><Text style={styles.editorVideoTitle}>Frame gần nhất</Text><Text style={styles.editorVideoMeta}>Chọn frame và tạo cue để biên tập cục bộ</Text></View><Pressable onPress={() => { setPreviewUri(project.thumbnailUri); setScreen("setup"); }} style={({ pressed }) => [styles.smallOutlineButton, pressed && styles.pressed]}><Text style={styles.smallOutlineText}>Mở frame</Text></Pressable></View> : null}
           {project.cues.length ? (
             <FlatList
               data={project.cues}
