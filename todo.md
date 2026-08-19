@@ -17,3 +17,6 @@
 - [x] Xác thực TypeScript, unit test helper SRT và Android JavaScript bundle.
 - [ ] Cài APK và kiểm thử OCR/dịch native trên iQOO Z10 Turbo Plus.
 - [ ] Build APK native bằng nút Publish và gửi bản APK để cài thử.
+- [ ] Phân tích nguyên nhân luồng xuất bản hiện tại không tạo được APK.
+- [x] So sánh và chọn dịch vụ build APK cloud thay thế, tương thích Expo native modules.
+- [x] Thêm cấu hình build cloud độc lập và hướng dẫn lấy APK cài thử.
