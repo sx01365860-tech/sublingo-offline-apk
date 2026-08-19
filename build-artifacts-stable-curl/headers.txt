@@ -1,0 +1,24 @@
+HTTP/2 302 
+date: Wed, 19 Aug 2026 01:30:09 GMT
+content-type: text/html;charset=utf-8
+content-length: 0
+location: https://productionresultssa14.blob.core.windows.net/actions-results/83656bc8-1842-4c31-871d-e5d2015b2627/workflow-job-run-c063b29c-6d88-5f09-8d3d-0b53390ae680/artifacts/fc88d96cab1bde0e338138ef6762c7fcca469ad4e837d8d1f04170e7c91db073.zip?rscd=attachment%3B+filename%3D%22sublingo-offline-debug-apk.zip%22&rsct=application%2Fzip&se=2026-08-19T01%3A40%3A09Z&sig=0pZ02tV10lfQUYhMm07k03dsiypIPgyhbJrNUTVPe5A%3D&ske=2026-08-19T04%3A00%3A51Z&skoid=ca7593d4-ee42-46cd-af88-8b886a2f84eb&sks=b&skt=2026-08-19T00%3A00%3A51Z&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skv=2025-11-05&sp=r&spr=https&sr=b&st=2026-08-19T01%3A30%3A04Z&sv=2025-11-05
+x-github-api-version-selected: 2022-11-28
+access-control-expose-headers: ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO, X-GitHub-Request-Id, Deprecation, Sunset, Warning
+access-control-allow-origin: *
+strict-transport-security: max-age=31536000; includeSubdomains; preload
+x-frame-options: deny
+x-content-type-options: nosniff
+x-xss-protection: 0
+referrer-policy: origin-when-cross-origin, strict-origin-when-cross-origin
+content-security-policy: default-src 'none'
+vary: Accept-Encoding, Accept, X-Requested-With
+x-github-request-id: 9D0E:29DC9A:CB953D:2A44883:6A850721
+x-github-edge-region: iad
+server: github.com
+x-ratelimit-limit: 5000
+x-ratelimit-remaining: 4988
+x-ratelimit-reset: 1787105778
+x-ratelimit-used: 12
+x-ratelimit-resource: core
+
